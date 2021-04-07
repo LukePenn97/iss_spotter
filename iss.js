@@ -33,4 +33,20 @@ const fetchCoordsByIP = (ip, callback) => {
   });
 };
 
-module.exports = { fetchMyIP, fetchCoordsByIP };
+const fetchISS = (geoData, callback) => {
+  request(`http://api.open-notify.org/iss-pass.json?lat=${geoData.latitude}&lon=${geoData.longitude}`, (error, response, body) => {
+    
+    if (response) {
+      if (response.statusCode !== 200) {
+        const msg = `Status Code ${response.statusCode} when fetching IP. Response: ${body}`;
+        callback(Error(msg), null);
+        return;
+      }
+    }
+    //console.log(body);
+    const obj = JSON.parse(body);
+    callback(error, obj.response);
+  });
+};
+
+module.exports = { fetchMyIP, fetchCoordsByIP, fetchISS };
