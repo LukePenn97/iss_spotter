@@ -49,4 +49,13 @@ const fetchISS = (geoData, callback) => {
   });
 };
 
-module.exports = { fetchMyIP, fetchCoordsByIP, fetchISS };
+const nextISSTimes = (passTimes, callback) => {
+  let passString = "";
+  for (const times of passTimes) {
+    let date = new Date(Number(times.risetime * 1000));
+    passString += `Next Pass at ${date} for ${times.duration} seconds!\n`;
+  }
+  callback(passString);
+};
+
+module.exports = { fetchMyIP, fetchCoordsByIP, fetchISS, nextISSTimes };
